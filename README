@@ -1,0 +1,89 @@
+This directory contains a demo of LaTeX's Prosper documentclass for
+making slides.
+
+
+--- MANIFEST -------------------------------------------------------
+
+README
+	this file
+
+slides.tex
+	the main LaTeX source for slides
+
+ns-2d-p.eps
+ns-2d-u.eps
+ns-2d-v.eps
+	figures to be included in the slides
+
+Makefile
+	a UNIX makefile, see comments below
+
+
+--- The UMBC style files -------------------------------------------
+
+The layout and colors in this demo are designed to look best with
+UMBC's Prosper styles.  The demo should compile with any other Prosper
+style, however the results will not be ideal because slide dimensions,
+fonts sizes and color pallets vary widely from style to style.
+
+In general, when you create your own Prosper document, first you pick
+a style, then lay out the contents to fit that specific style.
+
+Download UMBC's Prosper styles from:
+
+    http://www.math.umbc.edu/~rouben/prosper/prosper-umbc.tgz
+
+
+--- How to compile -------------------------------------------------
+
+To compile the slides, do:
+
+	latex slides.tex         # will create slides.dvi
+	dvips -t a4 slides.dvi   # will create slides.ps
+	ps2pdf slides.ps         # will create slides.pdf
+
+To view slides.ps, do:
+
+	gv -landscape slides.ps
+
+To view slides.pdf, do:
+
+	acroread slides.pdf      # view the resulting pdf file
+
+
+--- Using the provided Makefile ------------------------------------
+
+Instead of typing the compilation com ands in the previous paragraph,
+you may just type:
+
+	make			# will create slides.pdf
+
+This automatically will executes the following steps:
+
+	slides.tex --> slides.dvi --> slides.ps --> slides.pdf
+
+To stop after creating the dvi file, type:
+
+	make dvi
+
+To stop after creating the ps file, type:
+
+	make ps
+
+The command "make" is equivalent to "make pdf"
+
+To remove files created by Makefile and restore the original state
+of this directory, type:
+
+	make clean
+
+
+--- Other info -----------------------------------------------------
+
+For a Prosper tutorial, have a look at:
+    http://www.math.umbc.edu/~rouben/prosper/
+
+-- 
+Rouben Rostamian <rostamian@umbc.edu>
+September 2002
+January 2003

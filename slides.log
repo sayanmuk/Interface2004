@@ -1,0 +1,699 @@
+This is TeX, Version 3.14159 (Web2C 7.4.5) (format=latex 2005.2.2)  8 JUN 2005 09:19
+**slides.tex
+(./slides.tex
+LaTeX2e <2001/06/01>
+Babel <v3.7h> and hyphenation patterns for american, french, german, ngerman, n
+ohyphenation, loaded.
+(/proj/texmf/tex/latex/misc/prosper/prosper.cls
+Document Class: prosper 2001/07/17, v. 1.5
+(c) 2000-2001 Frederic Goualard, EPFL, Switzerland
+ and Peter M^^f8ller Neergaard, Boston Univ., USA
+CVSId: $Id: prosper.cls,v 1.24 2002/11/25 14:35:50 exupery Exp $
+(/usr/share/texmf/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texmf/tex/latex/graphics/graphics.sty
+Package: graphics 2001/07/07 v1.0n Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texmf/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texmf/tex/latex/config/graphics.cfg
+File: graphics.cfg 2001/08/31 v1.1 graphics configuration of teTeX/TeXLive
+)
+Package graphics Info: Driver file: dvips.def on input line 80.
+
+(/usr/share/texmf/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen102
+\Gin@req@width=\dimen103
+)
+(/usr/share/texmf/tex/latex/seminar/seminar.cls
+Document Class: seminar 1997/10/13, 1.4
+Document Style: `seminar' v1.4 <1997/10/13> (tvz)
+\slidewidth=\dimen104
+\slideheight=\dimen105
+\footheight=\dimen106
+(/usr/share/texmf/tex/latex/base/article.cls
+Document Class: article 2001/04/21 v1.4e Standard LaTeX document class
+(/usr/share/texmf/tex/latex/base/leqno.clo
+File: leqno.clo 1998/08/17 v1.1c Standard LaTeX option (left equation numbers)
+)
+(/usr/share/texmf/tex/latex/base/size10.clo
+File: size10.clo 2001/04/21 v1.4e Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen107
+)
+(/usr/share/texmf/tex/latex/seminar/sem-page.sty)
+\before@document=\toks15
+\after@document=\toks16
+\before@enddocument=\toks17
+\c@slide=\count87
+\slide@count=\count88
+\@slidebox=\box26
+\not@slidebox=\box27
+\slide@hook=\toks18
+\after@slide=\toks19
+\slide@footins=\insert233
+\slide@listdepth=\count89
+\saved@specials=\box28
+\before@newslide=\toks20
+\after@slidepage=\toks21
+\slidesep=\skip43
+\c@note=\count90
+\slideframewidth=\dimen108
+\slideframesep=\dimen109
+\semin=\dimen110
+\semcm=\dimen111
+)
+(/usr/share/texmf/tex/latex/config/seminar.con)
+(/usr/share/texmf/tex/latex/seminar/semcolor.sty
+Style Option: `semcolor' for doc style `seminar' 1.0 <93/04/01> (tvz)
+(/usr/share/texmf/tex/generic/pstricks/pstricks.tex
+`PSTricks' v97 patch 14  <1999/12/23> (tvz)
+\pst@dima=\dimen112
+\pst@dimb=\dimen113
+\pst@dimc=\dimen114
+\pst@dimd=\dimen115
+\pst@dimg=\dimen116
+\pst@dimh=\dimen117
+\pst@hbox=\box29
+\pst@boxg=\box30
+\pst@cnta=\count91
+\pst@cntb=\count92
+\pst@cntc=\count93
+\pst@cntd=\count94
+\pst@cntg=\count95
+\pst@cnth=\count96
+\pst@toks=\toks22
+(/usr/share/texmf/tex/generic/pstricks/pstricks.con)
+\psunit=\dimen118
+\psxunit=\dimen119
+\psyunit=\dimen120
+\pslinewidth=\dimen121
+\pst@customdefs=\toks23
+\pslinearc=\dimen122
+\everypsbox=\toks24
+\psframesep=\dimen123
+\pslabelsep=\dimen124
+\theoverlaybox=\box31
+))
+(/usr/share/texmf/tex/latex/seminar/semlayer.sty
+\@@slidebox=\box32
+\c@overlay=\count97
+)
+(/usr/share/texmf/tex/latex/seminar/seminar.bug)
+(/usr/share/texmf/tex/latex/seminar/seminar.bg2
+seminar.bg2: various corrections for the Seminar document class added since sem
+inar.bug (waiting Seminar 98)
+(Version 1.7 of <May 22, 1998> (D.G.))
+) (/proj/texmf/tex/latex/misc/prosper/seminar-bg2-lepennec.fix)
+(/usr/share/texmf/tex/latex/hyperref/hyperref.sty
+Package: hyperref 2003/01/22 v6.73n Hypertext links for LaTeX
+\@linkdim=\dimen125
+\Hy@linkcounter=\count98
+\Hy@pagecounter=\count99
+
+(/usr/share/texmf/tex/latex/hyperref/pd1enc.def
+File: pd1enc.def 2003/01/22 v6.73n Hyperref: PDFDocEncoding definition (HO)
+)
+(/usr/share/texmf/tex/latex/config/hyperref.cfg
+File: hyperref.cfg 2002/06/06 v1.2 hyperref configuration of TeXLive and teTeX
+)
+Package hyperref Info: Option `bookmarks' set `true' on input line 1744.
+Package hyperref Info: Option `pdffitwindow' set `true' on input line 1744.
+Package hyperref Info: Option `pdfcenterwindow' set `true' on input line 1744.
+Package hyperref Info: Hyper figures OFF on input line 1792.
+Package hyperref Info: Link nesting OFF on input line 1797.
+Package hyperref Info: Hyper index ON on input line 1800.
+Package hyperref Info: Plain pages ON on input line 1805.
+Package hyperref Info: Backreferencing OFF on input line 1812.
+
+Implicit mode ON; LaTeX internals redefined
+Package hyperref Info: Bookmarks ON on input line 1916.
+(/usr/share/texmf/tex/latex/html/url.sty
+Package: url 1999/03/02  ver 1.4  Verb mode for urls, email addresses, and file
+ names
+)
+LaTeX Info: Redefining \url on input line 2055.
+\Fld@menulength=\count100
+\Field@Width=\dimen126
+\Fld@charsize=\dimen127
+\Choice@toks=\toks25
+\Field@toks=\toks26
+Package hyperref Info: Hyper figures OFF on input line 2513.
+Package hyperref Info: Link nesting OFF on input line 2518.
+Package hyperref Info: Hyper index ON on input line 2521.
+Package hyperref Info: backreferencing OFF on input line 2528.
+Package hyperref Info: Link coloring OFF on input line 2533.
+\c@Item=\count101
+\c@Hfootnote=\count102
+)
+*hyperref using driver hdvips*
+(/usr/share/texmf/tex/latex/hyperref/hdvips.def
+File: hdvips.def 2003/01/22 v6.73n Hyperref driver for dvips
+
+(/usr/share/texmf/tex/latex/hyperref/pdfmark.def
+File: pdfmark.def 2003/01/22 v6.73n Hyperref definitions for pdfmark specials
+\pdf@docset=\toks27
+\pdf@box=\box33
+\pdf@toks=\toks28
+\pdf@defaulttoks=\toks29
+\Fld@listcount=\count103
+\@outlinefile=\write3
+))
+\theoverlays=\box34
+\c@overlaysCount=\count104
+\c@limitOverlays=\count105
+\@tempoLimit=\count106
+\slideWidth=\skip44
+\c@trueSlideCounter=\count107
+
+(/proj/texmf/tex/latex/misc/prosper/PPRdefault.sty
+Package: PPRdefault 2000/11/30
+
+`default' style for Prosper ---
+CVSId: $Id: PPRdefault.sty,v 1.3 2001/10/24 15:11:25 exupery Exp $
+ 
+(/usr/share/texmf/tex/latex/amsfonts/amssymb.sty
+Package: amssymb 2002/01/22 v2.2d
+
+(/usr/share/texmf/tex/latex/amsfonts/amsfonts.sty
+Package: amsfonts 2001/10/25 v2.2f
+\@emptytoks=\toks30
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 132.
+))
+(/usr/share/texmf/tex/latex/seminar/semhelv.sty
+Style Option: `semhelv' for the `seminar' doc style 1.4 <2000/05/08> (tvz)
+Modified by Stefan (see source for details)
+LaTeX Font Info:    Font shape `OT1/helvetica/m/n' will be
+(Font)              scaled to size 8.20007pt on input line 176.
+))
+\c@item@step=\count108
+\c@overlay@page=\count109
+\c@nbAffected=\count110
+\c@savecountAffected=\count111
+) (/usr/share/texmf/tex/latex/amscls/amsthm.sty
+Package: amsthm 2000/10/26 v2.08
+\thm@style=\toks31
+\thm@bodyfont=\toks32
+\thm@headfont=\toks33
+\thm@notefont=\toks34
+\thm@headpunct=\toks35
+\thm@preskip=\skip45
+\thm@postskip=\skip46
+\thm@headsep=\skip47
+\dth@everypar=\toks36
+)
+(/usr/share/texmf/tex/latex/amsmath/amsmath.sty
+Package: amsmath 2000/07/18 v2.13 AMS math features
+\@mathmargin=\skip48
+
+For additional information on amsmath, use the `?' option.
+(/usr/share/texmf/tex/latex/amsmath/amstext.sty
+Package: amstext 2000/06/29 v2.01
+
+(/usr/share/texmf/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0
+\@emptytoks=\toks37
+\ex@=\dimen128
+))
+(/usr/share/texmf/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d
+\pmbraise@=\dimen129
+)
+(/usr/share/texmf/tex/latex/amsmath/amsopn.sty
+Package: amsopn 1999/12/14 v2.01 operator names
+)
+\inf@bad=\count112
+LaTeX Info: Redefining \frac on input line 211.
+\uproot@=\count113
+\leftroot@=\count114
+LaTeX Info: Redefining \overline on input line 307.
+\classnum@=\count115
+\DOTSCASE@=\count116
+LaTeX Info: Redefining \ldots on input line 379.
+LaTeX Info: Redefining \dots on input line 382.
+LaTeX Info: Redefining \cdots on input line 467.
+\Mathstrutbox@=\box35
+\strutbox@=\box36
+\big@size=\dimen130
+LaTeX Font Info:    Redeclaring font encoding OML on input line 567.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 568.
+\macc@depth=\count117
+\c@MaxMatrixCols=\count118
+\dotsspace@=\muskip10
+\c@parentequation=\count119
+\dspbrk@lvl=\count120
+\tag@help=\toks38
+\row@=\count121
+\column@=\count122
+\maxfields@=\count123
+\andhelp@=\toks39
+\eqnshift@=\dimen131
+\alignsep@=\dimen132
+\tagshift@=\dimen133
+\tagwidth@=\dimen134
+\totwidth@=\dimen135
+\lineht@=\dimen136
+\@envbody=\toks40
+\multlinegap=\skip49
+\multlinetaggap=\skip50
+\mathdisplay@stack=\toks41
+LaTeX Info: Redefining \[ on input line 2666.
+LaTeX Info: Redefining \] on input line 2667.
+) (./algorithm2e.sty
+Package: algorithm2e 2004/06/16
+\c@AlgoLine=\count124
+
+(/usr/share/texmf/tex/latex/base/ifthen.sty
+Package: ifthen 2001/05/26 v1.1c Standard LaTeX ifthen package (DPC)
+)
+(/usr/share/texmf/tex/latex/tools/xspace.sty
+Package: xspace 1997/10/13 v1.06 Space after command names (DPC)
+)
+********************************************************
+Package `algorithm2e' Release 3.5 -- june 16 2004 --
+- algorithm2e-announce@lirmm.fr mailing list for announcement about releases
+- algorithm2e-discussion@lirmm.fr mailing list for discussion about package
+subscribe by emailing sympa@lirmm.fr with 'subscribe <list> <firstname name>'
+- Author: Christophe Fiorio (fiorio@lirmm.fr)
+********************************************************
+\skiptotal=\skip51
+\skiprule=\skip52
+\skiphlne=\skip53
+\skiptext=\skip54
+\skiplength=\skip55
+\algomargin=\skip56
+\skipalgocfslide=\skip57
+\algowidth=\dimen137
+\inoutsize=\dimen138
+\inoutline=\dimen139
+\AlCapSkip=\skip58
+\algocf@inoutbox=\box37
+\algocf@inputbox=\box38
+\algocf@capbox=\box39
+\c@algocfline=\count125
+\c@algocf=\count126
+\algocf@algoframe=\box40
+\algocf@algobox=\box41
+)
+\c@conj=\count127
+\c@countex=\count128
+\c@prop=\count129
+\c@thm=\count130
+\c@cor=\count131
+\c@defn=\count132
+\c@lem=\count133
+Package hyperref Info: Option `colorlinks' set `true' on input line 90.
+ (./slides.aux)
+\openout1 = `slides.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 153.
+LaTeX Font Info:    ... okay on input line 153.
+ (/usr/share/texmf/tex/latex/graphics/color.sty
+Package: color 1999/02/16 v1.0i Standard LaTeX Color (DPC)
+
+(/usr/share/texmf/tex/latex/config/color.cfg
+File: color.cfg 2001/08/31 v1.1 color configuration of teTeX/TeXLive
+)
+Package color Info: Driver file: dvips.def on input line 125.
+
+(/usr/share/texmf/tex/latex/graphics/dvipsnam.def
+File: dvipsnam.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+Package hyperref Info: Link coloring ON on input line 153.
+
+(/usr/share/texmf/tex/latex/hyperref/nameref.sty
+Package: nameref 2001/01/27 v2.19 Cross-referencing by name of section
+\c@section@level=\count134
+)
+LaTeX Info: Redefining \ref on input line 153.
+LaTeX Info: Redefining \pageref on input line 153.
+ (./slides.out) (./slides.out)
+\openout3 = `slides.out'.
+
+LaTeX Font Info:    Font shape `OT1/helvetica/m/n' will be
+(Font)              scaled to size 7.38007pt on input line 157.
+LaTeX Font Info:    Try loading font information for T1+phv on input line 157.
+(/usr/share/texmf/tex/latex/psnfss/t1phv.fd
+File: t1phv.fd 2001/06/04 scalable font definitions for T1/phv.
+)
+LaTeX Font Info:    Try loading font information for T1+ptm on input line 157.
+
+(/usr/share/texmf/tex/latex/psnfss/t1ptm.fd
+File: t1ptm.fd 2001/06/04 font definitions for T1/ptm.
+)
+LaTeX Font Info:    Try loading font information for U+msa on input line 157.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Try loading font information for U+msb on input line 157.
+
+(/usr/share/texmf/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2002/01/19 v2.2g AMS font definitions
+)
+LaTeX Font Info:    Font shape `OT1/helvetica/m/n' will be
+(Font)              scaled to size 5.74005pt on input line 157.
+LaTeX Font Info:    Font shape `OT1/courier/m/n' will be
+(Font)              scaled to size 6.895pt on input line 157.
+LaTeX Font Info:    Font shape `OT1/helvetica/m/n' will be
+(Font)              scaled to size 4.10004pt on input line 157.
+ [1
+
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+[2
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps> [2
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+[2
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps> [2
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+[2
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+[2
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps> [2
+
+] [3
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps> [3
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+[3
+
+] [4
+
+] [4
+
+] [4
+
+] [4
+
+] [4
+
+] [5
+
+] [5
+
+] [5
+
+] [5
+
+] [6
+
+] [6
+
+] [6
+
+] [7
+
+] [7
+
+] [7
+
+] [8
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps> [8
+
+] [9
+
+] [9
+
+] [9
+
+] [10
+
+] [10
+
+]
+[10
+
+] [10
+
+]
+LaTeX Font Info:    Font shape `OT1/helvetica/m/n' will be
+(Font)              scaled to size 6.56006pt on input line 564.
+LaTeX Font Info:    Font shape `OT1/helvetica/m/it' will be
+(Font)              scaled to size 6.56006pt on input line 564.
+LaTeX Font Info:    Font shape `OT1/helvetica/bx/n' in size <8> not available
+(Font)              Font shape `OT1/helvetica/b/n' tried instead on input line 
+564.
+LaTeX Font Info:    Font shape `OT1/helvetica/b/n' will be
+(Font)              scaled to size 6.56006pt on input line 564.
+ [11
+
+] [11
+
+] [12
+
+] [12
+
+] [13
+
+] [13
+
+] [14
+
+] [14
+
+]
+
+Package amsmath Warning: Foreign command \over;
+(amsmath)                \frac or \genfrac should be used instead
+(amsmath)                 on input line 720.
+
+[15
+
+] [16
+
+] [16
+
+] [17
+
+] [17
+
+] [17
+
+] [17
+
+]
+File: xval.eps Graphic file (type eps)
+ <xval.eps>
+File: yval.eps Graphic file (type eps)
+ <yval.eps> [18
+
+]
+File: norm.eps Graphic file (type eps)
+ <norm.eps>
+[18
+
+]
+File: gradient.eps Graphic file (type eps)
+ <gradient.eps>
+File: covar.eps Graphic file (type eps)
+ <covar.eps> [18
+
+] [19
+
+] [19
+
+] [19
+
+] [20
+
+]
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 946.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 946.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 946.
+
+
+LaTeX Font Warning: Command \tiny invalid in math mode on input line 946.
+
+[20
+
+]
+File: featall.eps Graphic file (type eps)
+ <featall.eps>
+File: feat2000.eps Graphic file (type eps)
+ <feat2000.eps>
+File: feat1000.eps Graphic file (type eps)
+ <feat1000.eps>
+File: feat500.eps Graphic file (type eps)
+ <feat500.eps> [20
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps> [21
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps> [21
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps> [21
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps> [21
+
+]
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+
+<red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+File: red-bullet-on-white.ps Graphic file (type eps)
+ <red-bullet-on-white.ps>
+[21
+
+] [22
+
+] (./slides.aux) ) 
+Here is how much of TeX's memory you used:
+ 5526 strings out of 95847
+ 68067 string characters out of 1195949
+ 149032 words of memory out of 1000001
+ 8350 multiletter control sequences out of 10000+50000
+ 31195 words of font info for 61 fonts, out of 500000 for 1000
+ 14 hyphenation exceptions out of 1000
+ 37i,13n,28p,240b,857s stack positions out of 1500i,500n,5000p,200000b,5000s
+
+Output written on slides.dvi (65 pages, 266564 bytes).

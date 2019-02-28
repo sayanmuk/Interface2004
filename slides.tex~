@@ -1,0 +1,675 @@
+% slides.tex
+% A demo of the Prosper documentclass for \LaTeX
+%
+% The layout and colors in this demo are designed to look best with
+% UMBC's Prosper styles.  The demo should compile with any other Prosper
+% style, however the results will not be ideal because slide dimensions,
+% fonts sizes and color pallets vary widely from style to style.
+% 
+% When you create your own Prosper document, first you pick a style,
+% then lay out the contents to fit that specific style.
+% 
+% You may want to have a look at the tutorial in:
+%     http://www.math.umbc.edu/~rouben/prosper/
+% 
+% Rouben Rostamian <rostamian@umbc.edu>
+% January 2003
+
+\documentclass[pdf,slideColor,colorBG]{prosper}
+\ptsize{9}
+
+
+
+
+% If using a umbc* style, we add a logo and navigation icons 
+% The navigation icons look like this:   " <--   O  -->"
+% In the Acrobat Reader, if you click on an icon by the left mouse button:
+%   o the left icon takes you to the first slide
+%     (it's equivalent to Control-Shift-PageUp)
+%   o the right icon takes you to the last slide
+%     (it's equivalent to Control-Shift-PageDown)
+%   o the middle icon takes you to the last viewed slide.  Use it to
+%     return to the previous page after a hyperlink jump.
+%     (it's equivalent to Control-LeftArrow)
+%
+% REMOVE THE FOLLOWING BLOCK OF LINES entirely if you don't care for the UMBC
+% logo and navigation icons.
+%\usepackage{ifthen}
+%ifthenelse{\not\isundefined{\umbclogo}}
+\usepackage{amssymb}
+\usepackage{amsthm}
+%\usepackage{color}
+\usepackage[fleqn]{amsmath}
+\usepackage[ruled,vlined]{algorithm2e}
+
+
+\title{Learning Coordinate Covariances via Gradients} 
+\author{Sayan Mukherjee$^1$ and  Ding-Xuan Zhou$^2$}
+\email{sayan@stat.duke.edu$^1$, mazhou@cityu.edu.hk$^2$}
+\institution{{\blue Institute for Genome Sciences and Policy$^1$} \\
+{\blue Institute of Statistics and Decision Sciences$^1$} \\  
+{\blue Duke University} \\
+{\red Department of Mathematics$^2$}\\
+{\red City University of  Hong Kong$^2$}
+}
+
+
+
+% The following block of lines are specific to this document.
+% DONT'T COPY THEM TO YOUR documents if you don't need them.
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}    % partial derivatives
+\renewcommand{\div}{\mathop\mathrm{div}\nolimits}       % divergence
+\newcommand{\header}[1]{\textbf{\textsl{{\blue #1}}}}   % a convenience macro
+\newcommand{\highlight}[1]{% highlight text as with a yellow marker
+        \psframebox[fillstyle=solid,fillcolor=yellow,linestyle=none]{#1}%
+}
+\renewcommand{\P}{\text{P}}
+\renewcommand{\R}{{\rm I\!R}}
+\newcommand{\pr}{{\rm I\!P}}
+\newcommand{\E}{{\rm I\!E}}
+\newcommand{\N}{{\rm I\!N}}
+\newtheorem{conj}{Conjecture}
+\newtheorem{countex}{Counterexample}
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem{defn}{Definition}
+\newtheorem{lem}{Lemma}
+%\renewcommand{\ell}{l}
+\newcommand{\SSS}{\scriptscriptstyle}
+\newcommand{\MC}{\multicolumn}
+\newcommand{\cT}{\ensuremath{{\cal T}}}
+\newcommand{\z}{\ensuremath{\pi}}
+\newcommand{\sZ}{\ensuremath{\Pi}}
+\newcommand{\bz}{\ensuremath{\mbox{\boldmath$\pi$}}}
+\newcommand{\Pperm}{\ensuremath{{\hat{P}}}}
+\newcommand{\Pnull}{\ensuremath{{{P}_{\mbox{null}}}}}
+\newcommand{\bx}{\ensuremath{{\bf x}}}
+\newcommand{\bzz}{\ensuremath{{\bf z}}}
+% set up hyperlink colors
+\hypersetup{colorlinks=true,anchorcolor=green,linkcolor=red,menucolor=cyan}
+
+
+
+
+
+
+\Logo{% \umbclogo
+        \hspace{5cm}
+        \tiny
+        \Acrobatmenu{FirstPage}{$\rule{0.20ex}{1ex}\!\!\blacktriangleleft$}
+        \qquad
+        \Acrobatmenu{GoBack}{$\circlearrowright$}
+        \qquad
+        \Acrobatmenu{LastPage}{$\blacktriangleright\!\!\rule{0.20ex}{1ex}$}
+}
+
+% The "pst-node" package is used in the slide titled:
+%           "Boundary conditions derived from symmetries".
+% Most users won't need this.
+% DON'T COPY THIS TO YOUR documents unless you know what it does.
+
+
+\begin{document}
+
+%-------------------------------------------------------------------- Slide --
+
+\maketitle
+
+%-------------------------------------------------------------------- Slide --
+
+\overlays{7}{
+\begin{slide}{Overview}
+
+{\small
+
+\begin{itemize}
+
+\fromSlide*{1}{
+\item Motivation of problem
+}
+
+\fromSlide*{2}{
+\item Tikhonov regularization
+}
+
+\fromSlide*{3}{
+\item Learning the gradient}
+
+\fromSlide*{4}{
+\item A representer theorem
+}
+
+\fromSlide*{5}{
+\item A reduced matrix algorithm
+}
+
+\fromSlide*{6}{
+\item Convergence of the estimate of the gradient}
+
+\fromSlide*{7}{
+\item Applications to simulated and real data}
+
+ 
+\end{itemize}
+
+}
+\end{slide}
+
+}
+
+%-------------------------------------------------------------------- Slide --
+
+
+\overlays{3}{
+\begin{slide}{Motivation}
+{\small
+
+\fromSlide*{1}{
+Classification and regression of high dimensional data given few
+samples. The ``large p, small n'' paradigm. \\
+Tikhonov regularization/shrinkage estimators (for example SVMs)
+heve been successful. \\
+}
+
+\vspace{.2in}
+\fromSlide*{2}{
+In a number of problems classical questions from statistical linear
+modeling have been revived
+\begin{itemize}
+\item variable saliency/significance
+\item coordinate covariation
+\end{itemize}
+However in the ``large p, small n'' paradigm. \\
+}
+\vspace{.2in}
+
+
+\fromSlide*{3}{
+We formulate the problem of learning coordinate covariation 
+and relevance in the framework of Tikhonov regularization or
+shrinkage estimation.
+}
+}
+
+\end{slide}
+}
+%-------------------------------------------------------------------- Slide --
+
+
+
+
+\begin{slide}{Tikhonov regularization}
+
+
+{\small
+$X \subset \R^n$ is a compact metric space.\\
+a hypothesis space ${\mathcal H}$ is a set of functions
+$X \rightarrow Y \subset \R$. \\
+a penalty or smoothness functional $\Omega: {\mathcal H} \to \R_+$ on
+${\mathcal H}$ \\
+a loss functional $V: \R^2 \to \R_+$
+
+
+}
+\end{slide}
+
+
+%-------------------------------------------------------------------- Slide --
+
+
+\overlays{2}{
+\begin{slide}{Statistical Modelling}
+
+
+{\small
+\fromSlide*{1}{
+We model the log-odds ratio as a generalized linear model
+$$\log \frac{\P(y=1 | x)}{\P(y=-1 | x)} = f(x) = \sum_{i=1}^n c_i
+K(x,x_i),$$
+where $K(\cdot,\cdot)$ is the kernel corresponding to a RKHS,
+$\mathcal H$. }
+\vspace{.1in}
+
+
+\fromSlide*{2}{
+The above model can be derived from the following regularized logistic 
+regression (shrinkage) estimator 
+$$f^*(x) = \arg \min_{f \in {\mathcal H}} \, \,\left[ \frac{1}{n} \sum_{i=1}^n
+\log(1+e^{-y_i f(x_i)}) + \lambda ||f||_K^2 \right],$$
+which due to the representer theorem has the solution 
+$$ f^*(x) = \sum_{i=1}^n c_i K(x,x_i),$$
+$$\P(y=1|x) = \frac{1}{1+e^{-yf(x)}}.$$ 
+}
+ 
+}
+\end{slide}
+}
+
+
+%-------------------------------------------------------------------- Slide --
+
+
+\overlays{2}{
+\begin{slide}{Variable selection}
+
+
+{\small
+
+\onlySlide*{1}{$x \in \R^{54,675}$ is very
+high dimemensional and most dimensions are not relevant. Find the
+relevant dimenions. For now we assume linear kernel. }
+
+\onlySlide*{2}{
+\begin{algorithm}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Return}{return}
+
+
+\Input{\mbox{inputs $x$, labels $y$, number of features $t$}} \vspace{.1in}
+
+\Return{\mbox{relevant dimensions of inputs $x_c$}} \vspace{.2in}
+
+$d_c = \mbox{dim}(x)$\;
+\While{$d_c > t$}{
+solve 
+$\arg \min_{f \in {\mathcal H}} \, \,\left[ \frac{1}{n} \sum_{i=1}^n
+\log(1+e^{-y_i f(x_i)}) + \lambda ||f||_K^2 \right]$ \;
+compute hyperplane $w = \sum_{i=1}^n c_i x_i$ \;
+rank hyperplane elements $w_{(\ell)}$\;
+remove dimensions corresponding to $10\%$ of the smallest 
+elements: $x := x_c$\;
+$d_c = \mbox{dim}(x_c)$\;
+}
+
+\mbox{return $x_c$}
+
+\caption{Backward select$(x,y,t)$}
+\end{algorithm}
+}
+}
+\end{slide}
+}
+
+%-------------------------------------------------------------------- Slide --
+
+
+
+\overlays{2}{
+\begin{slide}{Two models}
+
+
+{\small
+
+\begin{enumerate}
+
+\fromSlide*{1}{
+\item Clinical variables: From $\{(z_i,y_i)\}_{i=1}^{93}$
+build $f(z)$ using regularized logistic regression and a Gaussian
+kernel:
+$$K(z_i,z) = \frac{1}{\sigma \sqrt{2 \pi}} e^{-||z-z_i||^2/2
+  \sigma^2},$$
+where $\sigma = \mbox{median}_{i\neq j = 1,..,93}[||z_i-z_j||].$
+  \\
+Measure error using leave-one-out cross-valididation.
+}
+
+\vspace{.2in}
+
+\fromSlide*{2}{
+\item Expression variables: From $\{(x_i,y_i)\}_{i=1}^{93}$
+build $f(x)$ using regularized logistic regression, a linear
+kernel, and backwards selection with $t=1000$.  \\
+Measure error using leave-one-out cross-valididation.
+}
+
+\end{enumerate}
+}
+\end{slide}
+}
+
+%-------------------------------------------------------------------- Slide --
+
+
+
+\begin{slide}{Prediction by the two models}
+
+
+\end{slide}
+
+%-------------------------------------------------------------------- Slide --
+
+\begin{slide}{Re-classify risk}
+
+
+
+\end{slide}
+
+
+
+%-------------------------------------------------------------------- Slide --
+
+
+
+
+
+\begin{slide}{Lung cancer treatment}
+
+
+\end{slide}
+
+%-------------------------------------------------------------------- Slide --
+
+
+\begin{slide}{Lung cancer treatment}
+
+
+\end{slide}
+
+%-------------------------------------------------------------------- Slide --
+
+
+
+\begin{slide}{Lung cancer treatment}
+
+
+\end{slide}
+
+
+%-------------------------------------------------------------------- Slide --
+\begin{slide}{Lung cancer treatment}
+
+
+
+
+\end{slide}
+
+
+%-------------------------------------------------------------------- Slide --
+\begin{slide}{Lung cancer treatment}
+
+
+\end{slide}
+
+
+
+
+%-------------------------------------------------------------------- Slide --
+
+\overlays{4}{
+\begin{slide}{Spurious patterns}
+
+{\small
+
+
+\onlySlide*{1}{
+Many good learning algorithms: Regularization, CART, Boosting,
+  etc...\\
+We have theory for many of these: \\
+rates of convergence, consistency, etc...
+}
+
+\fromSlide*{2}{
+You are given $S = \{(\bx_i,y_i)\}_{i=1}^{n}$ with $\bx_i \in \R^d$ and
+  $y_i \in \{0,1\}$. Say $n = 30$ and $d = 30,000$ and we measure the
+  leave-one-out error
+$$\cT(\bx_1,y_1, \ldots, \bx_n,y_n) = \frac{1}{n} \sum_{i=1}^n
+I(f_{S^i}(\bx_i) \not = y_i)= \frac{11}{30}.$$ 
+}
+
+\vspace{.1in}
+
+\fromSlide*{3}{
+Is there really a pattern in this dataset ?
+}
+
+\vspace{.1in}
+
+\fromSlide*{4}{
+\begin{itemize}
+\item Money
+\item Relevance of scientific question (is $y$ sensical).
+\end{itemize}
+}
+
+}
+\end{slide}
+
+}
+
+
+%-------------------------------------------------------------------- Slide --
+
+\overlays{2}{
+\begin{slide}{Problem statement and hypothesis testing}
+
+{\small
+
+\onlySlide*{1}{
+Given a dataset $S = \{(\bx_k,y_k)\}_{k=1}^n$ with $\bx_i \in \R^d$ and
+  $y_i \in \{0,1\}$ and a statistic
+$$\cT : ({\R}^d \times \{0,1\})^n \mapsto \R,$$
+which is a measure of the similarity of the subsets $\{ \bx_k | y_k = 1 \}$ and
+$\{\bx_k | y_k = -1 \}$ are the data and labels independent
+$$p(\bx|y=1) = p(\bx|y=-1).$$
+}
+
+\fromSlide*{2}{
+Two class hypothesis testing: \\
+Assume the null hypothesis that the data and labels are independent 
+$$p(\bx|y=1) = p(\bx|y=-1)$$
+the goal is to reject this null hypothesis at a certain level
+of significance $\alpha$ which sets the maximal acceptable false
+positive probability. For any value of the statistic the p-value
+is highest level of significance at which the null hypothesis
+can be rejected.
+}
+}
+
+\end{slide}
+
+}
+
+
+%-------------------------------------------------------------------- Slide --
+
+
+
+\overlays{2}{
+\begin{slide}{Permutation tests for hypothesis testing}
+
+{\small
+
+\onlySlide*{1}{
+Suppose we use the leave-one-out statistic
+$$\cT(\bx_1,y_1, \ldots, \bx_n,y_n) = \frac{1}{n} \sum_{i=1}^n I(f_{S^i}(x_i) \not = y_i).$$
+Let $\sZ_n$ be the set of all permutations of the samples 
+$(\bx_i)_{i=1}^n$, where for the permutation $\pi$, $\bx_i^\pi$ is 
+the $i$-th sample after permutation.
+}
+
+
+\fromSlide*{2}{
+\begin{algorithm}
+\SetKwInOut{Input}{input}
+\SetKwInOut{Return}{return}
+
+\Input{\mbox{inputs $(\bx_i)_{i=1}^n$, labels $(y_i)_{i=1}^n$, statistic $\cT$}} \vspace{.1in}
+
+\Return{\mbox{$\cT((\bx_1,y_1, \ldots, \bx_n,y_n))$ and its p-value}} 
+\vspace{.2in}
+
+
+Compute  $t_0 = \cT(\bx_1,y_1, \ldots, \bx_n,y_n)$\;
+\For{m=1 \KwTo M}{
+sample $\bz^m$ uniformly over $\sZ_n$\;
+compute $t^m = \cT(\bx_1^m,y_1, \ldots, \bx_n^m, y_n)$\;
+}
+
+Construct $\Pperm(T \leq t) = \frac{1}{M} \sum_{m=1}^M \Theta(t-t^m)$\;
+
+compute p-value $\hat{p}_0 = \Pperm(t_0)$\;
+
+
+\mbox{return $t_0, \hat{p}_0$}
+
+\caption{Permutation test$(\{(\bx_i,y_i)\}_{i=1}^n,$\cT$)$}
+\end{algorithm}
+}
+
+}
+
+\end{slide}
+
+}
+
+
+%-------------------------------------------------------------------- Slide --
+
+
+%-------------------------------------------------------------------- Slide --
+
+\overlays{5}{
+\begin{slide}{Concentration of the permutations}
+
+{\small
+
+\fromSlide*{1}{
+$\cal C$: class of binary classifiers including $\emptyset$\\
+$c \in {\cal C}$ is a subset of $\R^n$ for which $y = +1$ \\
+$c_0$: $y=+1$, if ${\bf x} \in c_0$. 
+}
+\vspace{.1in}
+
+\onlySlide*{2}{
+For $\mbox{\boldmath$\pi$}$ the training error is
+\begin{eqnarray*}
+e_n(\mbox{\boldmath$\pi$}) & = & 
+\min_{c \in {\cal C}} P_n(c \triangle c_0) \label{ranERM} \\
+ & = & \min_{c \in {\cal C}} \left[ \frac{1}{n} \sum_{i=1}^n 
+I(\bx_i \in c, \bx_i^\pi \not\in c_0) + 
+I(\bx_i \not\in c, \bx_i^\pi \in c_0) \right] \nonumber,
+\end{eqnarray*}  
+where $\bx_i$ is the $i$-th sample and $\bx_i^\pi$ is the 
+$i$-th sample after permutation.
+}
+
+\onlySlide*{3}{
+For fixed $c\in{\cal C}$ the average error is
+\begin{eqnarray*}
+\E P_n(c \triangle c_0) &=&
+\left(1-\frac{1}{n}\right)[P(c)(1-P(c_0))+(1-P(c))P(c_0)] + \\
+& &\frac{1}{n}[P(c)+P(c_o)-2P(c\cap c_0)],
+\end{eqnarray*}
+where the expectation is taken over the data ${\bf x}$
+and permutations $\mbox{\boldmath$\pi$}$.
+}
+
+\fromSlide*{4}{
+For large $n$ 
+\begin{eqnarray*}
+\E P_n(c \triangle c_0) & \approx &  P(c)(1-P(c_0))+(1-P(c))P(c_0),
+\end{eqnarray*}
+assume $P(c_0) \leq 1/2$. The minimum average error (random error)
+ is $P(c_0)$. 
+}
+
+\vspace{.2in}
+
+\fromSlide*{5}{
+Under what complexity conditions on $\cal C$
+is $e_n(\mbox{\boldmath$\pi$})$ close to $P(c_0)$ ?}
+
+
+}
+
+\end{slide}
+}
+
+%-------------------------------------------------------------------- Slide --
+
+
+\overlays{2}{
+\begin{slide}{Conditions for concentration}
+
+{\small
+
+\fromSlide*{1}{
+\begin{thm} 
+If the concept class $\cal C$ has VC dimension $V$ then with
+probability $1-Ke^{-t/K}$
+\begin{displaymath}
+P(x \in c_0) - e_n(\mbox{\boldmath$\pi$})
+ \leq K\min\left(\sqrt{\frac{V \log n}{n}},
+\frac{ V \log n}{n(1-2P(c_0))^2}\right)+ \sqrt{\frac{K t }{n}}. 
+\end{displaymath}
+\end{thm}
+
+\vspace{.1in}
+
+If $P(c_0)<1/2$ then first term that depends on
+the VC dimension $V$ will be of order $\frac{V\log n}{n}$ which 
+gives the zero-error type rate of convergence.}
+
+\vspace{.2in}
+
+\fromSlide*{2}{
+\begin{cor} 
+The following are equivalent
+\begin{enumerate}
+\item the permutation procedure concentrates independent of distribution
+\item $\cal C$ has finite VC dimension.
+\end{enumerate}
+\end{cor}
+}
+
+}
+\end{slide}
+}
+
+%-------------------------------------------------------------------- Slide --
+
+\overlays{2}{
+\begin{slide}{Concentration and p-values}
+
+{\small
+
+\fromSlide*{1}{
+By the above theorem we know under the null hypothesis
+\begin{displaymath}
+\label{pvalbound}
+\P\left(|e_{n}(\mbox{\boldmath$\pi$}) - P(c_0)| \geq \varepsilon
+\right) \leq Ke^{-\varepsilon^2 {\cal O}(n)}.
+\end{displaymath}}
+
+\vspace{.1in}
+
+\fromSlide*{2}{
+We can easily estimate 
+$$P(c_0) \approx \frac{\min[\#\{y_i=1\},\#\{y_i=-1\}]}{n}.$$ 
+
+\vspace{.1in}
+Setting $|t_0 - P(c_0)| = \varepsilon$
+$$p(t_0) \leq Ke^{-\varepsilon^2 {\cal O}(n)},$$
+an upper bound on the p-value.
+}
+}
+\end{slide}
+}
+
+
+%-------------------------------------------------------------------- Slide --
+
+\begin{slide}{Acknowledgements}
+
+
+{\small 
+Polina Golland, Feng Liang, and Dmitry Panchenko
+}
+
+
+
+\end{slide}
+
+
+\end{document}

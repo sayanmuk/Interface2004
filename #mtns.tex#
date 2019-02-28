@@ -1,0 +1,997 @@
+\documentclass[20pt,landscape]{foils}
+\usepackage[english,german]{babel}  % language support for german/english
+\usepackage[latin1]{inputenc}       % allow Latin1 characters
+\usepackage{supertabular}
+\usepackage{ifvtex}
+\usepackage{ifpdf}
+% Running vtex we most probably also create pdf...
+\ifvtexpdf\pdftrue\fi
+\ifpdf
+\usepackage{pause}               % loads also color.sty
+\usepackage{background}
+\usepackage{graphicx}            % for including graphics
+\usepackage{geometry}
+\usepackage{hyperref}
+\else
+\usepackage[dvipdfm]{pause}      % loads also color.sty
+\usepackage[dvipdfm]{background}
+\usepackage[dvips]{graphicx}
+\usepackage[dvips]{geometry}
+\usepackage[dvips]{epsfig}
+\usepackage[dvipdfm]{hyperref}
+
+% Math packages
+\usepackage[fleqn]{amsmath}
+\usepackage{amssymb}
+\usepackage{euler}
+\usepackage{threeparttable}
+\usepackage{url}
+\usepackage[all]{xy}        
+\usepackage{dcolumn}
+\newcolumntype{.}{D{.}{.}{-1}}
+\newcolumntype{d}[1]{D{.}{.}{#1}}
+\rightfooter{}
+
+
+%% The following definition is only necessary, because we use variants
+%% of the same graphics file in .mps and .eps format each. The variant
+%% .mps is suitable for pdflatex and dvipdfm, the variant .eps is good
+%% for vlatex and pdflatex. Therefore we have to setup a preference of
+%% .mps for dvipdfm.
+%% matrixb?e.eps is created from matrixb?e.fig using the option -p2 of
+%% fig2dev. matrixb?e.mps is created running fig2dev without such an
+%% option (see the manual for PPower4).
+\DeclareGraphicsExtensions{.jpg,.jpeg,.pdf,.png,.mps,.eps,.ps}
+\fi
+\usepackage{pp4slide}
+\geometry{headsep=3ex,hscale=0.9}
+\hypersetup{pdftitle={Predictive algortihms are stable},
+  pdfsubject={MTNS},
+  pdfauthor={Sayan Mukherjee, Center for Biological and Computational
+    Learning, MIT, Center for Genome Research, 
+    Whitehead Institute,  sayan@mit.edu},
+  pdfpagemode={FullScreen},
+  linkcolor=cyan,               
+  citecolor=cyan,               
+  pagecolor=cyan,
+  urlcolor=cyan
+    }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%% colors
+\usepackage{wcolor}                      % Definitions
+\renewcommand\Black{\color{dblue}}       % color of page number (dblue is off)
+\renewcommand\Black{\color{dblue}}       % color of page number
+\renewcommand\normalcolor{\color{dblue}} % Color of the text of \foilhead{}
+%\vpagecolor[dblue]{RGBblack}  %background: blue to black vertical gradient
+%\hpagecolor[blue]{RGBblack} %background: blue to black horizontal gradient
+\pagecolor{white}            %background: monocrome
+
+
+%\pausecolors{textcolor}{normalcolor}{HighlightColor} % Out/In focus
+\pausecolors{yellow}{darkyellow}{yellow}      % \Ia yellow  
+\pausecolors{magenta}{lightmagenta}{magenta}  % \Ib magenta 
+\pausecolors{green}{lightgreen}{green}        % \Ic green   
+\pausecolors{lightcyan}{cyan}{lightcyan}      % \Id blue    
+\pausecolors{red}{lightred}{red}              % \Ie red     
+\pausecolors{black}{darkwhite}{white}         % \Iw white   
+
+
+
+\newcommand\LOGOOFF{
+   \LogoOff
+   \rightfooter{\pauselevel{=1 +1} 
+                \rlap{\quad\textsf{\tiny\thepage}}}
+}
+\newcommand{\sP}{{\rm I\!P}}
+\renewcommand{\P}{\text{P}}
+\newcommand{\R}{{\rm I\!R}}
+\newcommand{\pr}{{\rm I\!P}}
+\newcommand{\E}{{\rm I\!E}}
+\newtheorem{conj}{Conjecture}
+\newtheorem{countex}{Counterexample}
+\newtheorem{prop}{Proposition}
+\newtheorem{thm}{Theorem}
+\newtheorem{cor}{Corollary}
+\newtheorem{defn}{Definition}
+\newtheorem{lem}{Lemma}
+\renewcommand{\ell}{l}
+\newcommand{\SSS}{\scriptscriptstyle}
+\newcommand{\MC}{\multicolumn}
+% \Bpara{x coord}{y coord}{rotation angle in degrees}{height in pt}
+ \newcommand{\Bpara}[4]{\begin{picture}(0,0)%
+     \setlength{\unitlength}{1pt}%
+     \put(#1,#2){\rotatebox{#3}{\raisebox{0mm}[0mm][0mm]{%
+           \makebox[0mm]{$\left.\rule{0mm}{#4pt}\right\}$}}}}%
+     \end{picture}}
+
+% use instead of \foilhead[]{}
+%\foilh[opt'l additional space after header]{title of slide and bookmark}
+%\newcounter{bookc}
+%\newcommand{\foilh}[2][0in]{%
+%  \addtocounter{bookc}{1}
+%  \hypertarget{\thebookc}{\foilhead{#2}}
+%  \pdfbookmark{#2}{\thebookc}} 
+%\newcommand{\vs}{\vspace{-\baselineskip}}
+
+\title{\If{Stable Algorithms are Predictive}}
+
+\author{\large Sayan Mukherjee}
+
+\date{
+\Ib{Center for Biological and Computational Learning}\\
+\Ib{Cancer Genomics Group}\\
+\Ib{MIT}\\
+\mbox{}\\
+\Ic{Departments of Computational Biology and Statistics}\\
+\Ic{Duke University}\\ 
+sayan@mit.edu \\
+\mbox{}\\
+{\small joint work with Tomaso Poggio, Partha Niyogi, and Ryan Rifkin.}}
+
+
+\input{mathdefs}
+\parindent=0pt
+\begin{document}
+\color{RGBblack}
+%\LOGOOFF
+\hypersetup{pdfpagetransition=Replace}
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\foilhead{Overview}
+
+
+
+\begin{enumerate}
+
+\item Background and definitions \pause
+
+\item Empirical risk minimization: Stability $\Leftrightarrow$ generalization $\Leftrightarrow$ consistency \pause
+
+\item Symmetric algorithms: Stability $\Rightarrow$ generalization \pause
+
+\item Discussion 
+
+
+\end{enumerate}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\foilhead{References}
+
+{\small
+
+
+\begin{enumerate}
+
+\item L.~Devroye and T.~Wagner.
+Distribution-free performance bounds for potential function rules. 
+{\it IEEE Trans. Inform. Theory}, 25(5):601--604, 1979. \pause
+
+\item M.~Kearns and D.~Ron.
+Algorithmic stability and sanity-check bounds for leave-one-out 
+cross-validation.{\it Neural Computation}, 11:1427--1453,1999. \pause
+
+\item O.~Bousquet and A.~Elisseeff.
+Stability and Generalization. {\it Journal of Machine Learning
+  Research}, 2:488--526, 2002. \pause
+
+\item S.~Kutin and P.~Niyogi.
+Almost-everywhere stability and generalization error. Technical
+report TR-2002-03, University of Chicago, 2002. \pause
+
+\Ib{\item S.~Mukherjee, P.~Niyogi, T.~Poggio, and R.~Rifkin.
+Statistical Learning: stability is sufficient for generalization and necessary and sufficient for consistency of Empirical Risk Minimiation. Technical
+report TR-2002-024, MIT, 2002.  \pause}
+
+
+\Ib{\item T.~Poggio, R.~Rifkin, S.~Mukherjee, and P.~Niyogi. General conditions for predictivity in learning theory. {\it Nature}, 428(25):419:422, 2004. }
+
+
+\end{enumerate}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\foilhead{The learning problem}
+
+
+
+Given dataset $S = \{z_1=(x_1,y_1),...,z_n=(x_n,y_n)\}$ drawn i.i.d.
+from a distribution $\mu(x,y)$.\\ \\ \pause
+
+An algorithm is the map ${\cal A}: S \rightarrow f_S$ in general
+$f_S \in {\cal H}$. \\ \\ \pause
+
+Predictivity: $f_S(x_{\mbox{new}}) \approx y_{\mbox{new}}$. \\ \\ \pause
+
+Loss function: $V(f_S,z) \equiv V(f_S(x),y)$\\ \pause
+\centerline{Examples: Square loss $(f_S(x)-y)^2$, \, \, Classification loss 
+$I_{(- y f_S(x) > 0)}$.}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\foilhead{Two ``independent'' approaches to learning}
+
+
+
+\begin{enumerate}
+
+\item Learning algorithms should generalize (motivation for theory). \\ \\ \pause 
+
+
+\item Learning algorithms should be stable, well-posed (motivation for algorithms). \\ \\ \pause 
+
+\item We will show that $(2) \Rightarrow  (1)$ and for certain algorithms
+$(2) \Leftrightarrow  (1)$. 
+
+
+\end{enumerate}
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Definitions}
+
+
+\begin{itemize}
+
+\item Empirical error: $R_{S}[f] = n^{-1}\sum_{i=1}^n V(f(x_i),y_i)$ \\ \pause
+
+\item Expected error: $R[f] = \E_z V(f,z) \equiv \int_{X \times Y} V(f(x),y) d\mu(x,y)$ \\ \pause
+
+\item Empirical risk minimization: ${\cal A}: \, \, \, \, f_{S} \in \arg \min_{f \in {\cal H}} R_{S}[f]$ \\ \pause
+
+\item Best function in the class: $f_{\cal H} \in \arg \min_{f \in {\cal H}} R[f]$ \\ \pause
+
+\item Leave-one-out error: $R_{loo}[S] = n^{-1}\sum_{i=1}^n V(f_{S^i}(x_i),y_i)$.
+
+
+
+
+
+\end{itemize}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Learning algorithms}
+
+{\small
+
+\begin{defn}
+Symmetric algorithms: $\cal A$ is symmetric if it is on average 
+invariant to the order of samples:  if over training sets $S$
+$$\E_S V(f_S,z) = \E_{S,\pi} V(f_{S(\pi)},z),$$ 
+where $S(\pi) = \{z_{\pi(1)},...,z_{\pi(n)} \}$. \\ \pause
+\end{defn}
+
+
+\begin{defn}
+Empirical risk minimization (ERM): Given $S$ and a function
+space $\cal H$ select $f_S$ such that
+$$R_S[f_S] = \min_{f \in {\cal H}} R_S[f] .$$
+\end{defn} 
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Generalization and consistency}
+
+{\small
+
+\begin{defn} Generalization: An algorithm ${\cal A}$ generalizes
+if 
+$$\forall \varepsilon > 0 \, \, \lim_{n \rightarrow \infty} \sup_{\mu} \pr\{|R_S[f_S] - R[f_S]| > \varepsilon \} = 0.$$
+\end{defn} \pause 
+
+
+\begin{defn}
+Consistency: ERM is consistent if 
+$$\forall \varepsilon > 0 \, \, \lim_{n \rightarrow \infty} \sup_{\mu} \pr\left\{R[f_S]> \inf_{f \in {\cal H}} R[f] + \varepsilon \right\} = 0.$$
+\end{defn} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Uniform convergence}
+
+{\small
+
+\begin{defn} Uniform Glivenko Cantelli (uGC) classes: A class of
+functions $\cal H$ is a uniform Glivenko Cantelli class if 
+$$\forall \varepsilon > 0 \, \, \lim_{n \rightarrow \infty} \sup_{\mu} \pr\left\{\sup_{f \in {\cal H}} \left|n^{-1}\sum_{i=1}^n f(x_i) - \E_x f(x)\right| > \varepsilon \right\} = 0.$$
+\end{defn}
+
+
+
+
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\foilhead{Generalization of ERM}
+
+{\small
+
+
+${\cal G}$ is the composition of the function class 
+$\cal H$ and the loss function $V$
+$${\cal G} = \{g(z) = V(f,z) \mbox{ for all } f \in {\cal H}, z \in Z\}.$$ \pause \\ \\
+
+
+
+\begin{thm} If the loss function is bounded $0 \leq V(f,z) \leq M$ then 
+the following are equivalent \\
+a) ERM generalizes \\
+b) ERM is consistent \\
+c) $\cal G$ is a uGC class \\
+d) $\cal G$ has finite $V_\gamma$ dimension (finite $VC$ for 
+indicator functions).
+\end{thm}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Two questions}
+
+{\small 
+
+This talk will answer the following two questions. \\ \\ \pause
+
+\begin{itemize}
+
+\item For ERM is there a notion of stability equivalent to
+classical conditions (uGC) ? \\ \pause
+
+
+\item Does this notion of stability ensure generalization for any symmetric algorithm ? \\  \pause
+
+\end{itemize}
+
+If (1) and (2) are true we will have a criteria that ensures generalization
+for algorithms from SVMs to kNN. 
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\foilhead{Stability: continuity of $\cal A$}
+
+Perturb the data $P: S \rightarrow S_p$ and see how much the functions
+$f_S$ and $f_{S_p}$ differ. \pause \\
+
+This can be construed as the continuity of $\cal A: S \rightarrow f_S$. \pause \\
+ 
+Different definitions of stability amount to different norms or ``metrics''\\
+$$\|f_S(x)-f_{S_p}(x)\|.$$
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Stability illustration}
+
+\centerline{Ten samples}
+\begin{center} 
+  \includegraphics[scale=0.8]{c4.pts.eps}
+\end{center}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Stability illustration}
+
+\centerline{Smoothest 10th degree polynomial}
+\begin{center}
+  \includegraphics[scale=0.8]{c4.ptsp10.eps}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Stability illustration}
+
+\centerline{Perturb data}
+\begin{center}
+  \includegraphics[scale=0.8]{c4.ptspert.eps}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Stability illustration}
+
+\centerline{Both polynomials}
+\begin{center}
+  \includegraphics[scale=0.8]{c4.ptspertp10.eps}
+\end{center}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Stability illustration}
+
+\centerline{Restriction to 2nd degree polynomial}
+\begin{center}
+  \includegraphics[scale=0.8]{c4.ptsp2.eps}
+\end{center}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Stability illustration}
+
+
+\centerline{Both polynomials}
+\begin{center}
+  \includegraphics[scale=0.8]{c4.ptspertp2.eps}
+\end{center}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{The perturbation}
+
+{\small
+
+$S=\{z_1=(x_1,y_1),...,z_i=(x_i,y_i),...,z_n=(x_n,y_n)\}$, \\ \pause
+$S^i=\{z_1=(x_1,y_1),...,z_{i-1}=(x_{i-1},y_{i-1}),z_{i+1}=(x_{i+1},y_{i+1}),...,z_n=(x_n,y_n)\}$. \\ \pause
+
+
+When we talk about stability we will talk about the following two
+functions
+\begin{eqnarray*}
+{\cal A}:& \, \,& S \rightarrow f_S \\
+{\cal A}:& \, \,& S^i \rightarrow f_{S^i}. \\
+\end{eqnarray*} 
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\foilhead{Uniform stability}
+
+{\small 
+
+Bousquet and Elisseeff introduced the following strong notion of
+stability. \pause
+
+
+\begin{defn}
+$\cal A$ is distribution independent uniformly stable if
+$$\forall S \in Z^n, \, \, \forall i \in\{1,...,n\}  \, \, \, \,
+\sup_{z \in Z} |V(f_{S^i},z)-V(f_S,z)| \leq \beta_{U}^{(n)},$$
+where $\beta_{U}^{(n)}$  goes to zero as $n \rightarrow \infty$. \\  \pause 
+\end{defn}  
+
+
+\begin{thm} Tikhonov regularization algorithms ${\cal A}_{reg}$ with bounded 
+Lipschitz loss 
+$$f_S = \arg \min_{f \in {\cal H}} \left[ n^{-1} \sum_{i=1}^n V(f,z_i) + \lambda \|f\|_{\cal H}^2 \right],$$
+are uniformly stable with
+$$\beta_{U}^{(n)} = \frac{C_1}{\lambda n}.$$
+\end{thm}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\foilhead{Uniformly stable algorithms generalize}
+{\small
+
+\begin{thm} If ${\cal A}$ is uniformly stable then with probability $1-\delta$ 
+$$R[f_S] \leq R_S[f_S] + 2 \beta_U + (4n \beta_U + M)\sqrt{\frac{\ln{1/\delta}}{2 n}},$$
+these bounds are meaningful if $\beta_U = o(n^{-1/2})$. 
+\end{thm}
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\foilhead{Uniform stability is too strong}
+
+{\small
+
+The above theorem addresses algorithms like SVMs, ridge regression, splines,
+and Parzen's windows. \pause \\ \\ 
+
+\begin{countex}
+ERM is not uniformly stable.  \pause
+
+$X$ is uniform on $[0,1]$, $Y \in \{-1,1\}$, and we use the 
+$\{0,1\}$-loss function  \pause \\
+the target function $t(x) = {\pm 1}$  with probablity $1/2$ \\
+the hypothesis space: ${\cal H} = \{f(x)= -1, f(x) = 1\}$. \\ \\ \pause
+\end{countex}
+
+
+For ERM: Uniform stability $\not \Leftrightarrow $ generalization.
+
+}
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Cross-validation stability}
+
+
+{\small
+
+
+Devroye and Wagner introduced cross-validation stability in the
+1970's to analyze kNN and kernel rules. \\ \pause
+
+\begin{defn}
+$\cal A$ is distribution independent $\mbox{CV}_{loo}$ stable if
+$$\forall i \in\{1,...,n\} \, \, \, \, \forall \mu \, \, \, \,
+\pr \left\{|V(f_{S^i},z_i)-V(f_S,z_i)| \leq \beta_{CV}^{(n)} \right\} \geq 1 - 
+\delta_{CV}^{(n)},$$
+where $\delta_{CV}^{(n)}$ and $\beta_{CV}^{(n)}$ goto zero as $n \rightarrow \infty$. 
+\end{defn}
+
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\foilhead{Equivalence in the PAC realizable setting}
+
+{\small
+
+Kutin and Niyogi proved an equivalence in the PAC realizable setting (the target function is in the hypothesis space $\cal H$ of indicator functions). \pause \\ 
+
+\begin{thm} 
+For ERM in the PAC realizable setting the following
+are equivalent \\
+a) ${\cal H}$ has finite VC dimension \\
+b) ERM is consistent \\
+c) $\cal A$ is $\mbox{CV}_{loo}$ stable with $\beta_{CV} = O(n^{-1})$ and
+$\delta_{CV} = \Omega(e^{-n})$. \pause \\ 
+\end{thm}
+
+
+Is there an equivalence beyond the PAC realizable setting ?
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{For ERM $\mbox{CV}_{loo}$ is equivalent to consistency}
+
+
+{\small
+
+\begin{thm}
+If the loss function is bounded $0 \leq V(f,z) \leq M$ then the following
+statements are equivalent for ERM  \\
+a) ERM is consistent \\
+b) $\cal G$ is a uGC class \\
+c) $\cal G$ has finite $V_\gamma$ dimension (finite $VC$ for 
+indicator functions) \\ \pause
+d) $\cal A$ is distribution-independent $\mbox{CV}_{loo}$ stable.
+\end{thm}
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\foilhead{What about non-ERM algorithms}
+
+{\small 
+
+
+\begin{countex} 
+$\mbox{CV}_{loo}$ is not sufficient for generalization of non-ERM
+algorithms. \\ \pause
+
+
+$X$ is uniform on $[0,1]$, $Y \in \{-1,1\}$, and we use the 
+$\{0,1\}$-loss function  \\
+the target function $t(x) = 1$.  \pause \\
+The following non-ERM algorithm is $\mbox{CV}_{loo}$ stable
+\begin{displaymath}
+f_S(x) = \left\{\begin{array}{ll}
+                        (-1)^n & \mbox{if n is a training point} \\
+                        (-1)^{n+1} & \mbox{otherwise}
+                                                   .    \end{array}
+                                                \right. \pause  
+\end{displaymath}  
+This algorithm does not generalize.
+\end{countex}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Learning stability}
+
+
+{\small
+
+\begin{defn}
+$\cal A$ is distribution independent learning stable if \\
+a) it is $\mbox{CV}_{loo}$ stable \\ \pause
+b) it is error stable
+$$\forall i \in\{1,...,n\} \, \, \, \, \forall \mu \, \, \, \,
+\pr \left\{|R[f_{S^i}]-R[f_S]| \leq \beta_{Er}^{(n)} \right\} \geq 1 - 
+\delta_{Er}^{(n)},$$
+where $\delta_{Er}^{(n)}$ and $\beta_{Er}^{(n)}$ goto zero as $n \rightarrow \infty$, \\ \pause
+c) it is empirical error stable 
+$$\forall i \in\{1,...,n\} \, \, \, \, \forall \mu \, \, \, \,
+\pr \left\{|R_S[f_{S^i}]-R_S[f_S]| \leq \beta_{E}^{(n)} \right\} \geq 1 - 
+\delta_{E}^{(n)},$$
+where $\delta_{E}^{(n)}$ and $\beta_{E}^{(n)}$ goto zero as $n \rightarrow \infty$. \\ \pause
+\end{defn}
+
+ERM implies (c), and ERM on a uGC class implies (b) so
+learning stability $\Leftrightarrow$  consistency of ERM.
+
+
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Learning stability implies generalization}
+
+
+{\small
+
+\begin{thm} If $\cal A$ is symmetric and learning stable then with probability
+$1-\delta_{gen}$
+$$|R[f_S] - R_S[f_S]| \leq \beta_{gen},$$ \pause
+where 
+$$\delta_{gen} = \beta_{gen} = (2M \beta_{CV} + 2 M^2 \delta_{CV} + 3 M \beta_{Er} + 3 M^2 \delta_{Er} + 5 M \beta_{E} + 5 M^2 \delta_{E})^{1/4}.$$
+\end{thm} 
+}
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Summary}
+
+
+{\small
+
+\begin{thm}
+For symmetric $\cal A$ with bounded loss \\ \pause
+a) learning stability implies generalization \\ \pause
+b) for ERM learning stability is equivalent to consistency.   
+\end{thm} 
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{A conjecture}
+
+
+{\small
+
+\begin{conj} 
+$\mbox{CV}_{loo}$ stability and empirical error stability is sufficient
+for the generalization of symmetric algorithms. 
+\end{conj} 
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Generalization given concentration}
+
+
+{\small
+
+A natural way of proving generalization is using concentration. \\
+\begin{thm}
+A symmetric algorithm $\cal A$ generalizes if\\
+a) is distribution independent $\mbox{CV}_{loo}$ stable \\ \pause
+b) has concentration of empirical and expected error: with
+probability $1-\delta^{(n)}$
+\begin{eqnarray*}
+|R[f_S]-\E_S R[f_S]| & \leq & \tau_{Er}^{(n)} \\
+|R_S[f_S]-\E_S R_S[f_S]| & \leq & \tau_{E}^{(n)},
+\end{eqnarray*}
+where $\delta^{(n)}$, $\tau_{E}^{(n)}$, and $\tau_{Er}^{(n)}$ goto zero 
+as $n \rightarrow \infty$. 
+\end{thm} 
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Generalization without concentration}
+
+
+{\small
+
+
+\begin{countex} 
+There are algorithms that are learning stable and generalize but do not 
+concentrate. \\ \pause
+
+
+$X$ is uniform on $[0,1]$, $Y \in \{-1,1\}$, and we use the 
+$\{0,1\}$-loss function  \\
+the target function $t(x) = 1$.  \pause \\
+We examine the following algorithm
+\begin{displaymath}
+f_S(x) = \left\{\begin{array}{ll}
+                        -1 & \mbox{if $\lceil \frac{n}{2} \rceil$ samples are lager than .5} \\
+                        1 & \mbox{otherwise}
+                                                   .    \end{array}
+                                                \right.  \pause
+\end{displaymath}  
+The expected error of this algorithm is $.5$ and therefore does not 
+concentrate. However, this algorithm does generalize and is learning stable.
+\end{countex}
+}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{An alternative decomposition}
+
+
+{\small
+
+Devroye and Wagner used the following decomposition to prove
+kNN and kernel rules generalize.
+
+
+\begin{thm}
+If 
+$$\lim_{n \rightarrow \infty} \E_S(R[f_S]-R_S[f_S])^2 = 0,$$
+then $\cal A$ generalizes. \\ \\ \pause
+The following decomposition holds
+$$\E_S(R[f_S]-R_S[f_S])^2 \leq  \Ig{2 \, \E_S (R[f_S]-R_{loo}[S])^2} +  \Ie{2 \, \E_S (R_{loo}[S]-R_S[f_S])^2}.$$ \\ \pause 
+\end{thm}
+
+$\mbox{CV}_{loo}$ stability was used to control the second term 
+$$\Ie{\E_S (R_{loo}[S]-R_S[f_S])^2 \leq 2 M \beta_{CV} + 2 M^2 \delta_{CV}}.$$
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\foilhead{Hypothesis stability}
+
+
+{\small
+
+The second term was controlled by hypothesis stability
+$$\Ig{\E_S (R[f_S] - R_{loo})^2 \leq 2 M \beta_{H} + 2 M^2 \delta_{H}}.$$ \pause \\
+
+
+\begin{defn}
+$\cal A$ is distribution independent $\mbox{H}_{loo}$ stable if
+$$\forall i \in\{1,...,n\} \, \, \, \, \forall \mu \, \, \, \,
+\pr \left\{\E_z|V(f_{S^i},z)-V(f_S,z)| \leq \beta_{H}^{(n)} \right\} \geq 1 - 
+\delta_{H}^{(n)},$$
+where $\delta_{H}^{(n)}$ and $\beta_{H}^{(n)}$ goto zero as $n \rightarrow \infty$.
+\end{defn}
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\foilhead{Is ERM hypothesis stable ?}
+
+
+{\small
+This is an open question. \\ \pause
+
+ERM is hypothesis stable under the following conditions:
+
+\begin{enumerate}
+
+\item The realizable setting and $\cal H$ is uGC  \pause
+
+\item Convex loss and $\cal H$ is uGC and convex \pause
+
+\item $\cal H$ is uGC and there is a unique best function \pause
+
+\item $|{\cal H}|$ is finite. 
+
+
+\end{enumerate}
+
+
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\foilhead{What algorithms are learning stable}
+
+
+{\small
+
+The following is a list of symmetric algorithms that we know are learning stable: \pause
+
+\begin{enumerate}
+
+\item kNN with $k \rightarrow \infty$ and $\frac{k}{n} \rightarrow 0$  \pause
+
+\item kernel rules with the width $h_n \rightarrow 0$ and 
+$h_n n \rightarrow \infty$ \pause
+
+\item a variety of bagging algorithms \pause
+
+\item regularization algorithms \pause
+
+\item ERM on a uGC class \pause
+
+\item online regularized least squares.
+
+
+
+
+\end{enumerate}
+
+
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+\foilhead{Learning languages}
+
+
+{\small
+
+The language learning algorithm ${\cal A}_L: {\cal Se} \rightarrow 
+{\cal Gr}$. \\ \pause
+
+For ${\cal A}_L$ there exists a class $H_{{\cal A}_L}$ which is the class
+of all learnable grammars.  \\ \pause
+
+In generative linguistics the class of grammars $H_{{\cal A}_L}$ is 
+called Universal Grammar and different linguistic
+theories attempt to characterize the nature of this class. \\ \pause
+
+In many cases, ${\cal A}_L$ may admit an easier mathematical 
+characterization than ${\cal H}_{{\cal A}_L}$.
+
+
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+
+
+\foilhead{Open problems and comments}
+
+
+{\small
+
+
+\begin{enumerate}
+
+\item  The rates for the stability approach do not seem to match
+up with the rates using using VC-type bounds. \pause
+
+\item We have a direct proof of the following statement:\\
+{\it If  $\cal H$ has infinite VC dimension, then $\forall n,
+\beta_{CV} > \frac{1}{8}$}. \pause 
+
+\item Is ERM hypothesis stable ? \pause
+
+\item Are all three stability terms needed for generalization. \pause
+
+\item Similar results for nonsymmteric algorithms, for example online algorithms. \pause
+
+\item Designing stable algorithms. \pause
+
+\item Martingale inequalitites with bad sets. 
+
+\end{enumerate}
+
+
+
+}
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Proof sketch}
+
+{\small
+
+For ERM
+$$V(f_{S^i},z_i) - V(f_S,z_i) \geq 0.$$ \pause
+
+\begin{eqnarray*} 
+(\beta,\delta)-\mbox{$\mbox{CV}_{loo}$ stability } & \Leftrightarrow & \lim_{n\rightarrow \infty} \E_S[|V(f_{S^i},z_i) - V(f_S,z_i)|] = 0, \\ \pause
+&\Leftrightarrow & \lim_{n\rightarrow \infty} \E_S[V(f_{S^i},z_i) - V(f_S,z_i)] = 0, \\ \pause
+& \Leftrightarrow & \lim_{n\rightarrow \infty} \E_S R[f_{S^i}] - \E_S R_S[f_S] = 0, \\ \pause
+& \Leftrightarrow &\lim_{n\rightarrow \infty} \E_S R[f_{S}] = \lim_{n\rightarrow \infty} \E_S R_S[f_S], \\ \pause
+& \Leftrightarrow & \mbox{Consistency of ERM}. \\
+\end{eqnarray*}
+
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\foilhead{Proof sketch}
+
+
+{\small
+
+If we can control: \\
+$$\lim_{n \rightarrow \infty} \E_S(R[f_S] - R_S[f_S])^2 = 0,$$
+then we can use the Bienaym\'{e}-Chebyshev inequality for the result. \pause
+
+\begin{eqnarray*}
+\E_S(R[f_S]-R_S[f_S])^2 & = & \E_S( R[f_S]^2 +R_S[f_S]^2 -2 R[f_S] R_S[f_S]) \\
+& = & \E_S[R[f_S](R[f_S]-R_S[f_S])] + \E_S[R_S[f_S](R_S[f_S]-R[f_S])]. 
+\end{eqnarray*}
+
+Using learning stability we can upper bound the two terms above. Zero
+is a trivial lower bound.
+}
+
+
+
+\end{document}
+
+
+
+
+
+
+
+
+
+
